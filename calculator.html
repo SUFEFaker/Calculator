@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多功能计算器</title>
+    <!-- 引入Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css">
+    <style>
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center">多功能计算器</h1>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="display" placeholder="0" readonly>
+                </div>
+                <div class="calculator-buttons">
+                    <button class="btn btn-secondary" onclick="appendToDisplay('7')">7</button>
+                    <button class="btn btn-secondary" onclick="appendToDisplay('8')">8</button>
+                    <button class="btn btn-secondary" onclick="appendToDisplay('9')">9</button>
+                    <button class="btn btn-warning" onclick="appendToDisplay('/')">/</button>
+
+                    <button class="btn btn-secondary" onclick="appendToDisplay('4')">4</button>
+                    <button class="btn btn-secondary" onclick="appendToDisplay('5')">5</button>
+                    <button class="btn btn-secondary" onclick="appendToDisplay('6')">6</button>
+                    <button class="btn btn-warning" onclick="appendToDisplay('*')">*</button>
+
+                    <button class="btn btn-secondary" onclick="appendToDisplay('1')">1</button>
+                    <button class="btn btn-secondary" onclick="appendToDisplay('2')">2</button>
+                    <button class="btn btn-secondary" onclick="appendToDisplay('3')">3</button>
+                    <button class="btn btn-warning" onclick="appendToDisplay('-')">-</button>
+
+                    <button class="btn btn-secondary" onclick="appendToDisplay('0')">0</button>
+                    <button class="btn btn-success" onclick="calculateResult()">=</button>
+                    <button class="btn btn-danger" onclick="clearDisplay()">C</button>
+                    <button class="btn btn-primary" onclick="appendToDisplay('+')">+</button>
+                    <button class="btn btn-secondary" onclick="calculateSin()">sin</button>
+                    <button class="btn btn-secondary" onclick="calculateCos()">cos</button>
+                    <button class="btn btn-secondary" onclick="calculateTan()">tan</button>
+                    <button class="btn btn-secondary" onclick="calculateCot()">cot</button>
+
+                    <button class="btn btn-secondary" onclick="calculateLn()">ln</button>
+                    <button class="btn btn-secondary" onclick="goToAverageCalculator()">statistic</button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentInput = '';
+
+        function appendToDisplay(value) {
+            currentInput += value;
+            display.value = currentInput;
+        }
+
+        function clearDisplay() {
+            currentInput = '';
+            display.value = '0';
+        }
+
+        function calculateResult() {
+            try {
+                currentInput = eval(currentInput).toString();
+                display.value = currentInput;
+            } catch (error) {
+                display.value = '错误';
+            }
+        }
+
+        function calculateSin() {
+            try {
+                const angle_degrees = parseFloat(currentInput);
+                if (!isNaN(angle_degrees)) {
+                    const angle_radians = angle_degrees * (Math.PI / 180);
+                    const sinValue = Math.sin(angle_radians);
+                    display.value = sinValue.toFixed(4); // 保留4位小数
+                } else {
+                    display.value = '无效输入';
+                }
+            } catch (error) {
+                display.value = '错误';
+            }
+        }
+        function calculateCos() {
+            try {
+                const angle_degrees = parseFloat(currentInput);
+                if (!isNaN(angle_degrees)) {
+                    const angle_radians = angle_degrees * (Math.PI / 180);
+                    const cosValue = Math.cos(angle_radians);
+                    display.value = cosValue.toFixed(4); // 保留4位小数
+                } else {
+                    display.value = '无效输入';
+                }
+            } catch (error) {
+                display.value = '错误';
+            }
+        }
+        function calculateTan() {
+            try {
+                const angle_degrees = parseFloat(currentInput);
+                if (!isNaN(angle_degrees)) {
+                    const angle_radians = angle_degrees * (Math.PI / 180);
+                    const tanValue = Math.tan(angle_radians);
+                    display.value = tanValue.toFixed(4); // 保留4位小数
+                } else {
+                    display.value = '无效输入';
+                }
+            } catch (error) {
+                display.value = '错误';
+            }
+        }
+        function calculateCot() {
+            try {
+                const angle_degrees = parseFloat(currentInput);
+                if (!isNaN(angle_degrees)) {
+                    const angle_radians = angle_degrees * (Math.PI / 180);
+                    const cotValue = 1 / Math.tan(angle_radians);
+                    display.value = cotValue.toFixed(4); // 保留4位小数
+                } else {
+                    display.value = '无效输入';
+                }
+            } catch (error) {
+                display.value = '错误';
+            }
+        }
+        function calculateLn() {
+          try {
+              const logarithm = parseFloat(currentInput);
+              if (logarithm > 0) {
+                  const lnValue = Math.log(logarithm)
+                  display.value = lnValue.toFixed(4)
+            } else {
+              display.value = '无效输入'
+            }
+          } catch (error) {
+            display.value = '错误'
+          }
+        }
+        function goToAverageCalculator() {
+        // 使用window.open()在新窗口中打开平均值计算器页面
+        window.open('statistic.html', '_blank');
+    }
+    </script>
+</body>
+</html>

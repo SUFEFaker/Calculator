@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计计算器</title>
+    <!-- 引入Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css">
+    <style>
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center">统计计算器(数据以,进行分割)</h1>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="data" placeholder="0">
+                </div>
+                <div class="calculator-buttons">
+                    <button class="btn btn-secondary" onclick="appendToData('1')">1</button>
+                    <button class="btn btn-secondary" onclick="appendToData('2')">2</button>
+                    <button class="btn btn-secondary" onclick="appendToData('3')">3</button>
+
+
+                    <button class="btn btn-secondary" onclick="appendToData('4')">4</button>
+                    <button class="btn btn-secondary" onclick="appendToData('5')">5</button>
+                    <button class="btn btn-secondary" onclick="appendToData('6')">6</button>
+
+
+                    <button class="btn btn-secondary" onclick="appendToData('7')">7</button>
+                    <button class="btn btn-secondary" onclick="appendToData('8')">8</button>
+                    <button class="btn btn-secondary" onclick="appendToData('9')">9</button>
+                    <button class="btn btn-warning" onclick="appendToData(',')">,</button>
+                    <button class="btn btn-danger" onclick="clearData()">C</button>
+
+                    <button class="btn btn-secondary" onclick="appendToData('0')">0</button>
+                    <button class="btn btn-success" onclick="calculateAverage()">Average</button>
+                    <button class="btn btn-success" onclick="calculateVariance()">Variance</button>
+                    <button class="btn btn-success" onclick="calculateSampleVariance()">SampleVariance</button>
+                    <button class="btn btn-success" onclick="calculateMedian()">Median</button>
+                    <button class="btn btn-success" onclick="calculateMode()">Mode</button>
+
+
+                </div>
+                <p id="result"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        let dataInput = document.getElementById('data');
+        let currentData = '';
+
+        function appendToData(value) {
+            currentData += value;
+            dataInput.value = currentData;
+        }
+
+        function clearData() {
+            currentData = '';
+            dataInput.value = '';
+        }
+
+        function calculateAverage() {
+            try {
+                const numbers = currentData.split(',').map(Number);
+                if (numbers.length > 0) {
+                    const sum = numbers.reduce((acc, num) => acc + num, 0);
+                    const average = sum / numbers.length;
+                    document.getElementById('result').textContent = `平均值：${average.toFixed(4)}`;
+                } else {
+                    document.getElementById('result').textContent = '请输入数据';
+                }
+            } catch (error) {
+                document.getElementById('result').textContent = '错误';
+            }
+        }
+        function calculateVariance() {
+          try {
+            const numbers = currentData.split(',').map(Number);
+            if (numbers.length > 0) {
+              var s = 0;
+              for(var i = 0 ; i<numbers.length ; i++)
+              {
+                s += numbers[i];
+              }
+              const sum = s;
+              const average = sum/numbers.length;
+              var v = 0;
+              for(var i = 0 ; i<numbers.length ; i++)
+              {
+                v += (numbers[i] - average) * (numbers[i] - average);
+              }
+              const variance = v / numbers.length;
+              document.getElementById('result').textContent = `方差：${variance.toFixed(4)}`;
+            } else {
+              document.getElementById('result').textContent = '请输入数据';
+            }
+          } catch (error) {
+            document.getElementById('result').textContent = '错误'
+          }
+        }
+        function calculateMedian (){
+          try {
+            var numbers = currentData.split(',').map(Number);
+            numbers.sort(function(a, b){
+              return a-b;
+            });
+            var n = numbers.length;
+
+            if (n > 0){
+              if(n % 2 === 0){
+                var median = (numbers[n / 2] + numbers[n / 2 - 1]) / 2;
+              } else {
+                var median = numbers[(n - 1) / 2];
+              }
+              document.getElementById('result').textContent = `中位数：${median.toFixed(4)}`;
+            } else {
+              document.getElementById('result').textContent = '请输入数据';
+            }
+          } catch (error) {
+            document.getElementById('result').textContent = '错误';
+          }
+        }
+        function calculateMode() {
+      try {
+          var numbers = currentData.split(',').map(Number);
+          if (numbers.length > 0) {
+              var hashset = {};
+              for (var i = 0; i < numbers.length; ++i) {
+                  if (hashset[numbers[i]] === undefined) {
+                      hashset[numbers[i]] = 1;
+                  } else {
+                      hashset[numbers[i]] += 1;
+                  }
+              }
+              var maxValue = 0;
+              var maxKey = null;
+              for (var key in hashset) {
+                  var tmpvalue = hashset[key];
+                  if (tmpvalue > maxValue) {
+                      maxValue = tmpvalue;
+                      maxKey = key;
+                  }
+              }
+
+              var mode = maxKey;
+              document.getElementById('result').textContent = `众数：${mode}`;
+          } else {
+              document.getElementById('result').textContent = '请输入数据';
+          }
+      } catch (error) {
+          document.getElementById('result').textContent = '错误';
+      }
+  }
+  function calculateSampleVariance() {
+    try {
+      const numbers = currentData.split(',').map(Number);
+      if (numbers.length > 0) {
+        var s = 0;
+        for(var i = 0 ; i<numbers.length ; i++)
+        {
+          s += numbers[i];
+        }
+        const sum = s;
+        const average = sum/numbers.length;
+        var v = 0;
+        for(var i = 0 ; i<numbers.length ; i++)
+        {
+          v += (numbers[i] - average) * (numbers[i] - average);
+        }
+        const variance = v / (numbers.length - 1);
+        document.getElementById('result').textContent = `样本方差：${variance.toFixed(4)}`;
+      } else {
+        document.getElementById('result').textContent = '请输入数据';
+      }
+    } catch (error) {
+      document.getElementById('result').textContent = '错误'
+    }
+  }
+
+
+    </script>
+</body>
+</html>
