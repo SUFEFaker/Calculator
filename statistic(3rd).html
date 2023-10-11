@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计计算器</title>
+    <!-- 引入Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css">
+    <style>
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns:143px 143px 143px;
+            grid-gap: 10px;
+            background-color: rgb(216, 210, 210);
+            width: 31%;
+        }
+        .my-button-numbers {
+            background-image: linear-gradient(to top right,black,#fff);
+            height: 100px;
+            width: 133px;
+            border-radius: 20px;
+        }
+        .my-button-numbers:hover{
+          background-image: linear-gradient(to top right,#fff,black);
+          height: 100px;
+          width: 133px;
+          border-radius: 20px;
+        }
+        .my-button-AC {
+            background-image: linear-gradient(to top right,red,#fff);
+            height: 100px;
+            width: 133px;
+            border-radius: 20px;
+        }
+        .my-button-AC:hover{
+          background-image: linear-gradient(to top right,#fff,red);
+          height: 100px;
+          width: 133px;
+          border-radius: 20px;
+        }
+        .my-button-change{
+            background-image: linear-gradient(to top right,blueviolet,#fff);
+            height: 100px;
+            width: 133px;
+            border-radius: 20px;
+        }
+        .my-button-change:hover{
+          background-image: linear-gradient(to top right,#fff,blueviolet);
+          height:100px;
+          width:133px;
+          border-radius: 20px;
+        }
+        .my-button-symbol{
+            background-image: linear-gradient(to top right,darkgrey,#fff);
+            height: 100px;
+            width: 133px;
+            border-radius: 20px;
+        }
+        .my-button-symbol:hover{
+          background-image: linear-gradient(to top right,#fff,darkgrey);
+          height: 100px;
+          width: 133px;
+          border-radius: 20px;
+        }
+        .my-button-function{
+            background-image: linear-gradient(to top right,gray,#fff);
+            height: 100px;
+            width: 133px;
+            border-radius: 20px;
+        }
+        .my-button-function:hover{
+          background-image: linear-gradient(to top right,#fff,gray);
+          height:100px;
+          width: 133px;
+          border-radius: 20px;
+        }
+        #my-text{
+            width: 31%;
+            height: 50px;
+            background-color: rgb(233, 227, 227);
+            padding-top: 5px;
+            margin-bottom: 5px;
+        }
+        #my-text input{
+            width: 90%;
+            height: 30px;
+            background-color: rgb(255, 255, 255);
+            border-bottom-left-radius: 50px;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+            margin-top: 7.5px;
+            margin-bottom: 10px;
+            margin-left: 2%;
+            font-size: 16px;
+            padding-left: 15px;
+            border: 0px;
+            color: black;
+            outline: none;
+            padding-left: 15px;  
+        }
+        #result{
+          background-color: rgb(233, 227, 227);
+          width: 31%;
+        }
+        .text-center{
+          background-image: linear-gradient(to top right,black,#fff);
+          width: 31%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center">统计计算器(数据以","进行分割)</h1>
+            </div>
+            <div class="card-body">
+                <div id="my-text">
+                    <input type="text" class="form-control" id="data" placeholder="请输入数据" readonly>
+                </div>
+                <div class="calculator-buttons">
+                    <button class="my-button-numbers" onclick="appendToData('1')" style="color: aliceblue;">1</button>
+                    <button class="my-button-numbers" onclick="appendToData('2')" style="color:aliceblue">2</button>
+                    <button class="my-button-numbers" onclick="appendToData('3')" style="color: aliceblue;">3</button>
+                    
+                    <button class="my-button-numbers" onclick="appendToData('4')" style="color: aliceblue;">4</button>
+                    <button class="my-button-numbers" onclick="appendToData('5')" style="color: aliceblue;">5</button>
+                    <button class="my-button-numbers" onclick="appendToData('6')" style="color: aliceblue;">6</button>
+
+
+                    <button class="my-button-numbers" onclick="appendToData('7')" style="color: aliceblue;">7</button>
+                    <button class="my-button-numbers" onclick="appendToData('8')" style="color: aliceblue;">8</button>
+                    <button class="my-button-numbers" onclick="appendToData('9')" style="color: aliceblue;">9</button>
+                    <button class="my-button-AC" onclick="clearData()" style="color: aliceblue;">C</button>
+                    <button class="my-button-numbers" onclick="appendToData('0')" style="color: aliceblue;">0</button>
+                    <button class="my-button-symbol" onclick="appendToData(',')" style="color: aliceblue;">,</button>
+                    <button class="my-button-function" onclick="calculateAverage()" style="color: aliceblue;">Average</button>
+                    <button class="my-button-function" onclick="calculateVariance()" style="color: aliceblue;">Variance</button>
+                    <button class="my-button-function" onclick="calculateSampleVariance()" style="color: aliceblue;">SampleVariance</button>
+                    <button class="my-button-function" onclick="calculateMedian()" style="color: aliceblue;">Median</button>
+                    <button class="my-button-function" onclick="calculateMode()" style="color: aliceblue;">Mode</button>
+                    <button class="my-button-AC" onclick="backspace()" style="color: aliceblue;">backsapce</button>
+
+                </div>
+                <p id="result"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        let dataInput = document.getElementById('data');
+        let currentData = '';
+
+        function appendToData(value) {
+            currentData += value;
+            dataInput.value = currentData;
+        }
+
+        function clearData() {
+            currentData = '';
+            dataInput.value = '';
+        }
+
+        function calculateAverage() {
+            try {
+                const numbers = currentData.split(',').map(Number);
+                if (numbers.length > 0) {
+                    const sum = numbers.reduce((acc, num) => acc + num, 0);
+                    const average = sum / numbers.length;
+                    document.getElementById('result').textContent = `平均值：${average.toFixed(4)}`;
+                } else {
+                    document.getElementById('result').textContent = '请输入数据';
+                }
+            } catch (error) {
+                document.getElementById('result').textContent = '错误';
+            }
+        }
+        function calculateVariance() {
+          try {
+            const numbers = currentData.split(',').map(Number);
+            if (numbers.length > 0) {
+              var s = 0;
+              for(var i = 0 ; i<numbers.length ; i++)
+              {
+                s += numbers[i];
+              }
+              const sum = s;
+              const average = sum/numbers.length;
+              var v = 0;
+              for(var i = 0 ; i<numbers.length ; i++)
+              {
+                v += (numbers[i] - average) * (numbers[i] - average);
+              }
+              const variance = v / numbers.length;
+              document.getElementById('result').textContent = `方差：${variance.toFixed(4)}`;
+            } else {
+              document.getElementById('result').textContent = '请输入数据';
+            }
+          } catch (error) {
+            document.getElementById('result').textContent = '错误'
+          }
+        }
+        function calculateMedian (){
+          try {
+            var numbers = currentData.split(',').map(Number);
+            numbers.sort(function(a, b){
+              return a-b;
+            });
+            var n = numbers.length;
+
+            if (n > 0){
+              if(n % 2 === 0){
+                var median = (numbers[n / 2] + numbers[n / 2 - 1]) / 2;
+              } else {
+                var median = numbers[(n - 1) / 2];
+              }
+              document.getElementById('result').textContent = `中位数：${median.toFixed(4)}`;
+            } else {
+              document.getElementById('result').textContent = '请输入数据';
+            }
+          } catch (error) {
+            document.getElementById('result').textContent = '错误';
+          }
+        }
+        function calculateMode() {
+      try {
+          var numbers = currentData.split(',').map(Number);
+          if (numbers.length > 0) {
+              var hashset = {};
+              for (var i = 0; i < numbers.length; ++i) {
+                  if (hashset[numbers[i]] === undefined) {
+                      hashset[numbers[i]] = 1;
+                  } else {
+                      hashset[numbers[i]] += 1;
+                  }
+              }
+              var maxValue = 0;
+              var maxKey = null;
+              for (var key in hashset) {
+                  var tmpvalue = hashset[key];
+                  if (tmpvalue > maxValue) {
+                      maxValue = tmpvalue;
+                      maxKey = key;
+                  }
+              }
+
+              var mode = maxKey;
+              document.getElementById('result').textContent = `众数：${mode}`;
+          } else {
+              document.getElementById('result').textContent = '请输入数据';
+          }
+      } catch (error) {
+          document.getElementById('result').textContent = '错误';
+      }
+  }
+  function calculateSampleVariance() {
+    try {
+      const numbers = currentData.split(',').map(Number);
+      if (numbers.length > 0) {
+        var s = 0;
+        for(var i = 0 ; i<numbers.length ; i++)
+        {
+          s += numbers[i];
+        }
+        const sum = s;
+        const average = sum/numbers.length;
+        var v = 0;
+        for(var i = 0 ; i<numbers.length ; i++)
+        {
+          v += (numbers[i] - average) * (numbers[i] - average);
+        }
+        const variance = v / (numbers.length - 1);
+        document.getElementById('result').textContent = `样本方差：${variance.toFixed(4)}`;
+      } else {
+        document.getElementById('result').textContent = '请输入数据';
+      }
+    } catch (error) {
+      document.getElementById('result').textContent = '错误'
+    }
+  }
+  function backspace() {
+      currentData = currentData.substring(0,currentData.length-1);
+      if (currentData.value=='') {
+         currentData.value=0;
+     }
+     dataInput.value = currentData;
+  }
+    </script>
+</body>
+</html>
